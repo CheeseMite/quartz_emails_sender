@@ -1,0 +1,15 @@
+<jobs>
+    <job>
+        <name>test</name>
+        <group>emails</group>
+        <jobClassName>SendEmailJob</jobClassName>
+        <triggers>
+            <scheduler type="cron">
+                <cronExpression>0 0 */3 ? * *</cronExpression>
+            </scheduler>
+            <scheduler type="cron">
+                <cronExpression>0 15,30,45 * ? * *</cronExpression>
+            </scheduler>
+        </triggers>
+    </job>
+</jobs>
