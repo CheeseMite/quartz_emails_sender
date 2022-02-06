@@ -1,5 +1,3 @@
-import com.sun.mail.iap.ByteArray;
-
 import javax.activation.DataHandler;
 import javax.activation.MimetypesFileTypeMap;
 import javax.mail.*;
@@ -9,17 +7,16 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 import java.io.File;
-import java.security.cert.Extension;
 import java.util.Properties;
 
-public class MailController {
-    private static MailController instance;
+public class MailManager {
+    private static MailManager instance;
     private static Session session;
 
-    private MailController() {
+    private MailManager() {
         Properties prop = new Properties();
         try {
-            prop.load(MailController.class.getClassLoader().getResourceAsStream("email.properties"));
+            prop.load(MailManager.class.getClassLoader().getResourceAsStream("email.properties"));
 
             String username = prop.getProperty("username");
             String password = prop.getProperty("password");
@@ -73,9 +70,8 @@ public class MailController {
 
         // Construct file for attachment part
         String filename = "sample." + extension;
-        System.out.println(MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(filename));
         ByteArrayDataSource dataSource = new ByteArrayDataSource(fileData,
-                MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(filename)); // "application/octet-stream");
+                MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(filename));
         DataHandler byteDataHandler = new DataHandler(dataSource);
 
         // Attachment part of the message
@@ -94,10 +90,10 @@ public class MailController {
         Transport.send(message);
     }
 
-    public static MailController getInstance()  {
+    public static MailManager getInstance()  {
         try {
             if (instance == null)
-                instance = new MailController();
+                instance = new MailManager();
         } catch (Exception e) {
             System.out.println("Failed to create connection. \n" + e.getMessage());
         }

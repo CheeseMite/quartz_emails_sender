@@ -10,7 +10,7 @@ public class SendEmailJob implements Job {
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
         EmailsController emailsController = EmailsController.getInstance();
-        MailController mailController = MailController.getInstance();
+        MailManager mailManager = MailManager.getInstance();
 
         try {
             ArrayList<Email> emails = emailsController.GetEmails();
@@ -19,7 +19,7 @@ public class SendEmailJob implements Job {
                 Integer emailStatus = email.getStatus();
                 if ( emailStatus == 0 || emailStatus == 2 || emailStatus == 1 ) {
                     emailsController.UpdateStatus(email.getId(), 2); // 2 -- start sending
-                    mailController.SendEmail(
+                    mailManager.SendEmail(
                             email.getEmailTo(), email.getSubject(),
                             email.getText(), email.getAttachment(),
                             email.getExtension()
