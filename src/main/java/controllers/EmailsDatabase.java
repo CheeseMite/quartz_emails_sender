@@ -1,12 +1,15 @@
+package controllers;
+
 import java.sql.*;
 import java.util.ArrayList;
+import entities.Email;
 
-public class EmailsController {
-    private static EmailsController singletonAccessor=null;
+public class EmailsDatabase {
+    private static EmailsDatabase singletonAccessor=null;
     private Connection con=null;
     Statement stat=null ;
 
-    private EmailsController() throws Exception{
+    private EmailsDatabase() throws Exception{
         String urlDatabase ="test_emails";
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String connectionString = "jdbc:sqlserver://localhost;databaseName=" + urlDatabase;//+";integratedSecurity=true;";
@@ -14,10 +17,10 @@ public class EmailsController {
         stat = con.createStatement();
     }
 
-    public static EmailsController getInstance()  {
+    public static EmailsDatabase getInstance()  {
         try {
             if (singletonAccessor == null)
-                singletonAccessor = new EmailsController();
+                singletonAccessor = new EmailsDatabase();
         } catch (Exception e) {
             System.out.println("Failed to create connection. \n" + e.getMessage());
         }
@@ -60,67 +63,4 @@ public class EmailsController {
 }
 
 
-class Email {
-    public Email(Integer id, String emailTo, String subject, String text, String extension, Integer status, byte[] attachment, Timestamp timeSend) {
-        this.id = id;
-        this.emailTo = emailTo;
-        this.subject = subject;
-        this.text = text;
-        this.extension = extension;
-        this.status = status;
-        this.attachment = attachment;
-        this.timeSend = timeSend;
-    }
 
-    public Email(Integer id, String emailTo, String subject, String text, String extension, Integer status, byte[] attachment) {
-        this(id, emailTo, subject, text, extension, status, attachment, null);
-    }
-
-    Integer id;
-
-    String emailTo;
-
-    String subject;
-
-    String text;
-
-    String extension;
-
-    Integer status;
-
-    byte[] attachment;
-
-    java.sql.Timestamp timeSend;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getEmailTo() {
-        return emailTo;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public byte[] getAttachment() {
-        return attachment;
-    }
-
-    public Timestamp getTimeSend() {
-        return timeSend;
-    }
-}

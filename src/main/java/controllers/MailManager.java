@@ -1,3 +1,5 @@
+package controllers;
+
 import javax.activation.DataHandler;
 import javax.activation.MimetypesFileTypeMap;
 import javax.mail.*;

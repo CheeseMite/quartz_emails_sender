@@ -1,15 +1,41 @@
-<jobs>
-    <job>
-        <name>test</name>
-        <group>emails</group>
-        <jobClassName>SendEmailJob</jobClassName>
-        <triggers>
-            <scheduler type="cron">
-                <cronExpression>0 0 */3 ? * *</cronExpression>
-            </scheduler>
-            <scheduler type="cron">
-                <cronExpression>0 15,30,45 * ? * *</cronExpression>
-            </scheduler>
-        </triggers>
-    </job>
-</jobs>
+<?xml version='1.0' encoding='utf-8'?>
+<job-scheduling-data xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_1_8.xsd"
+                     version="1.8">
+
+    <pre-processing-commands>
+        <delete-jobs-in-group>*</delete-jobs-in-group>
+        <delete-triggers-in-group>*</delete-triggers-in-group>
+    </pre-processing-commands>
+
+    <schedule>
+        <job>
+            <name>test</name>
+            <group>emails</group>
+            <job-class>jobs.SendEmailJob</job-class>
+        </job>
+
+        <trigger>
+            <cron>
+                <name>test_every_15min</name>
+                <group>emails</group>
+                <job-name>test</job-name>
+                <job-group>emails</job-group>
+                <misfire-instruction>MISFIRE_INSTRUCTION_DO_NOTHING</misfire-instruction>
+                <cron-expression>0 15,30,45 * ? * *</cron-expression>
+            </cron>
+        </trigger>
+
+        <trigger>
+            <cron>
+                <name>test_every_10min</name>
+                <group>emails</group>
+                <job-name>test</job-name>
+                <job-group>emails</job-group>
+                <misfire-instruction>MISFIRE_INSTRUCTION_DO_NOTHING</misfire-instruction>
+                <cron-expression>0 10,20,30,40,50 * ? * *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+</job-scheduling-data>
