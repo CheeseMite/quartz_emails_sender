@@ -11,11 +11,12 @@
 
     <schedule>
         <job>
-            <name>test</name>
+            <name>sendEmail</name>
             <group>emails</group>
             <job-class>jobs.SendEmailJob</job-class>
         </job>
 
+        <!--
         <trigger>
             <cron>
                 <name>test_every_15min</name>
@@ -37,5 +38,28 @@
                 <cron-expression>0 10,20,30,40,50 * ? * *</cron-expression>
             </cron>
         </trigger>
+        -->
+        <trigger>
+            <cron>
+                <name>every_day_8am</name>
+                <group>emails</group>
+                <job-name>sendEmail</job-name>
+                <job-group>emails</job-group>
+                <misfire-instruction>MISFIRE_INSTRUCTION_DO_NOTHING</misfire-instruction>
+                <cron-expression>0 0 8 ? * MON,TUE,WED,THU,FRI *</cron-expression>
+            </cron>
+        </trigger>
+
+        <trigger>
+            <cron>
+                <name>every_day_6pm</name>
+                <group>emails</group>
+                <job-name>sendEmail</job-name>
+                <job-group>emails</job-group>
+                <misfire-instruction>MISFIRE_INSTRUCTION_DO_NOTHING</misfire-instruction>
+                <cron-expression>0 0 18 ? * MON,TUE,WED,THU,FRI *</cron-expression>
+            </cron>
+        </trigger>
+
     </schedule>
 </job-scheduling-data>
